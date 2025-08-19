@@ -1,4 +1,6 @@
-import Home from "./pages/Home"
+import Applayout from "./pages/Applayout"
+import Homepage from "./pages/Homepage"
+import Login from "./pages/Login"
 import PageNotFound from "./pages/PageNotFound"
 import Pricing from "./pages/Pricing"
 import Product from "./pages/Product"
@@ -9,9 +11,11 @@ function App() {
     
       <BrowserRouter>
     <Routes>
-      <Route path="/" element={<Home/>}/>
+      <Route path="/" element={<Homepage/>}/>
       <Route path="product" element={<Product/>}/>
       <Route path="price" element={<Pricing/>}/>
+      <Route path="login" element={<Login/>}/>
+      <Route path="app" element={<Applayout/>}/>
       <Route path="*" element={<PageNotFound/>}/>
     </Routes>
     </BrowserRouter>
