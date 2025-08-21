@@ -1,3 +1,6 @@
+import { useEffect, useState } from "react"
+import CityList from "./component/CityList"
+import CountryItem from "./component/CountryItem"
 import Applayout from "./pages/Applayout"
 import Homepage from "./pages/Homepage"
 import Login from "./pages/Login"
@@ -6,7 +9,29 @@ import Pricing from "./pages/Pricing"
 import Product from "./pages/Product"
 import { BrowserRouter, Routes,Route } from "react-router-dom"
 
+const Base_URL = "http://localhost:9000"
+
 function App() {
+  const [cities, setCities] = useState([])
+  const [loading, setLoading]= useState(false)
+
+  useEffect(()=>{
+    const fetchCities = async () =>{
+      try{
+      setLoading(true)
+        const response = await fetch(`${Base_URL}/cities`)
+        const data = await response.json()
+        setCities(data)
+        console.log(data)
+      }catch{
+        alert("There was an error when loading data")
+      }finally{
+        setLoading(false)
+      }
+    }
+
+    fetchCities()
+  }, [])
   return (
     
       <BrowserRouter>
@@ -16,9 +41,9 @@ function App() {
       <Route path="price" element={<Pricing/>}/>
       <Route path="login" element={<Login/>}/>
       <Route path="app" element={<Applayout/>}>
-      <Route index element={<p>List of cities</p>}/>
-      <Route path="cities" element={<p>Cities</p>}/>
-      <Route path="countries" element={<p>Countries</p>}/>
+      <Route index element={<CityList cities = {cities} isLoading={loading}/>}/>
+      <Route path="cities" element={<CityList cities = {cities} isLoading={loading}/>}/>
+      <Route path="countries" element={<CountryItem/>}/>
       <Route path="form" element={<p>Form</p>}/>
       </Route>
       <Route path="*" element={<PageNotFound/>}/>
