@@ -1,5 +1,6 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
+import { Link } from 'react-router-dom';
 import styles from './CityItem.module.css'
 
 const formatDate = (date) =>
@@ -12,13 +13,15 @@ const formatDate = (date) =>
 
 function CityItem({city}) {
   console.log(city)
-  const {cityName, emoji, date} = city
+  const {cityName, emoji, date, id} = city
   return (
-    <li className={styles.cityItem}>
+    <li >
+      <Link className={styles.cityItem} to={`${id}`}>
       <span className={styles.emoji}>{ emoji}</span>
       <span className={styles.name}>{cityName}</span>
       <time className={styles.time}>({formatDate(date)})</time>
       <button className={styles.deleteBtn}>&times;</button>
+      </Link>
     </li>
   )
 }
