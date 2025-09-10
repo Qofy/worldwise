@@ -9,6 +9,7 @@ import Product from "./pages/Product"
 import { BrowserRouter, Routes,Route } from "react-router-dom"
 import CountryList from "./component/CountryList"
 import City from "./component/City"
+import Form from "./component/Form"
 
 const Base_URL = "http://localhost:9000"
 
@@ -46,7 +47,7 @@ function App() {
       <Route path="cities" element={<CityList cities = {cities} isLoading={loading}/>}/>
       <Route path="cities/:id" element={<City cities={cities}/>}/>
       <Route path="countries" element={<CountryList cities={cities} isLoading={loading}/>}/>
-      <Route path="form" element={<p>Form</p>}/>
+      <Route path="form" element={<Form/>}/>
       </Route>
       <Route path="*" element={<PageNotFound/>}/>
     </Routes>
