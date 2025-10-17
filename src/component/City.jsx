@@ -1,5 +1,8 @@
+import { useEffect } from "react";
+import { useCities } from "../contexts/CityContext";
 import styles from "./City.module.css";
 import { useParams } from "react-router-dom";
+// import Spinner from "./Spinner";
 
 const formatDate = (date) =>
   new Intl.DateTimeFormat("en", {
@@ -10,17 +13,35 @@ const formatDate = (date) =>
   }).format(new Date(date));
 
 function City() {
-  // TEMP DATA
-  const currentCity = {
-    cityName: "Lisbon",
-    emoji: "🇵🇹",
-    date: "2027-10-31T15:59:59.138Z",
-    notes: "My favorite city so far!",
-  };
+  const { id } = useParams();
+  const { getCity, currentCity} = useCities();
 
+  useEffect(
+    function() {
+      getCity(id);
+    },
+    [id, getCity]
+  );
+
+  // CRITICAL: Check if currentCity exists BEFORE destructuring
+  if (!currentCity) {
+    return <div className={styles.city}>Loading...</div>;
+  }
+
+  // Safe destructuring after null check
   const { cityName, emoji, date, notes } = currentCity;
-const {id} = useParams()
-  console.log("Params",id)
+
+  // // Handle case where required data is missing
+  // if (!cityName) {
+  //   return (
+  //     <div className={styles.city}>
+  //       <p>City data incomplete</p>
+  //     </div>
+  //   );
+  // }
+
+  
+
   return (
     <div className={styles.city}>
       <div className={styles.row}>
