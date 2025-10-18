@@ -9,14 +9,13 @@ const CitiesContext = createContext()
 function CityContext({ children }) {
   const [cities, setCities] = useState([])
   const [loading, setLoading] = useState(false)
-  const [currentCity, setCurrentCity] = useState(null)
-  const [error, setError] = useState(null)
+  const [currentCity, setCurrentCity] = useState({})
+
 
   useEffect(() => {
     const fetchCities = async () => {
       try {
         setLoading(true)
-        setError(null)
         const response = await fetch(`${Base_URL}/cities`)
         
         if (!response.ok) {
@@ -28,8 +27,6 @@ function CityContext({ children }) {
         console.log('Cities loaded:', data)
       } catch (err) {
         const errorMessage = `Error loading cities: ${err.message}`
-        setError(errorMessage)
-        console.error(errorMessage)
         alert(errorMessage)
       } finally {
         setLoading(false)
@@ -39,54 +36,33 @@ function CityContext({ children }) {
     fetchCities()
   }, [])
 
-  async function getCity(id) {
-    if (!id) {
-      console.warn('getCity called without an ID')
-      return
-    }
-
+   async function getCity(id) {
     try {
-      setLoading(true)
-      setError(null)
-      
-      const response = await fetch(`${Base_URL}/cities/${id}`)
-      
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`)
+        setLoading(true)
+        const response = await fetch(`${Base_URL}/cities/${id}`)
+        
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`)
+        }
+        
+        const data = await response.json()
+        setCurrentCity(data)
+        console.log('Cities loaded:', data)
+      } catch (err) {
+        const errorMessage = `Error loading cities: ${err.message}`
+        alert(errorMessage)
+      } finally {
+        setLoading(false)
       }
-      
-      const data = await response.json()
-      setCurrentCity(data)
-      console.log('City loaded:', data)
-    } catch (err) {
-      const errorMessage = `Error loading city ${id}: ${err.message}`
-      setError(errorMessage)
-      console.error(errorMessage)
-      alert(errorMessage)
-    } finally {
-      setLoading(false)
-    }
-  }
-
-  // Helper function to clear current city
-  function clearCurrentCity() {
-    setCurrentCity(null)
-  }
-
-  // Helper function to clear errors
-  function clearError() {
-    setError(null)
-  }
+   }
+     
 
   return (
     <CitiesContext.Provider value={{
       cities,
       loading,
       currentCity,
-      error,
-      getCity,
-      clearCurrentCity,
-      clearError
+      getCity
     }}>
       {children}
     </CitiesContext.Provider>
@@ -95,8 +71,8 @@ function CityContext({ children }) {
 
 function useCities() {
   const context = useContext(CitiesContext)
-  if (!context) {
-    throw new Error('useCities must be used within a CityContext')
+  if (context === undefined) {
+    throw new Error('CitiesContex was used outside the CitiesProvider')
   }
   return context
 }

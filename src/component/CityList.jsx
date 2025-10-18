@@ -9,8 +9,8 @@ import { useCities } from '../contexts/CityContext'
 // eslint-disable-next-line react/prop-types
 function CityList() {
   const {currentCity} = useCities()
-  const {cities, isLoading} = useCities()
-  if (isLoading) return <Spinner/>;
+  const {cities, loading} = useCities()
+  if (loading) return <Spinner/>;
   if(!cities.length) return <Message message="Add your first city by clicking on a city on the map"/>
   return (
     <ul className={`${styles.cityList} ${currentCity ? styles["cityItem--active"] : ""}`}>
