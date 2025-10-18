@@ -49,7 +49,6 @@ function CityContext({ children }) {
       setLoading(true)
       setError(null)
       
-      // Fix: Fetch specific city by ID
       const response = await fetch(`${Base_URL}/cities/${id}`)
       
       if (!response.ok) {

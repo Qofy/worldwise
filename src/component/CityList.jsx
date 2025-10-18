@@ -11,7 +11,7 @@ function CityList() {
   const {currentCity} = useCities()
   const {cities, isLoading} = useCities()
   if (isLoading) return <Spinner/>;
-  if(!cities) return <Message message="Add your first city by clicking on a city on the map"/>
+  if(!cities.length) return <Message message="Add your first city by clicking on a city on the map"/>
   return (
     <ul className={`${styles.cityList} ${currentCity ? styles["cityItem--active"] : ""}`}>
       {cities.map((city) =>(
