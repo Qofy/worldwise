@@ -9,13 +9,13 @@ import { BrowserRouter, Routes,Route, Navigate } from "react-router-dom"
 import CountryList from "./component/CountryList"
 import City from "./component/City"
 import Form from "./component/Form"
-import { CityContext } from "./contexts/CityContext"
+import { CitiesProvider } from "./contexts/CityContext"
 
 
 function App() {
  
   return (
-    <CityContext>
+    <CitiesProvider>
       <BrowserRouter>
     <Routes>
       <Route index element={<Homepage/>}/>
@@ -32,7 +32,7 @@ function App() {
       <Route path="*" element={<PageNotFound/>}/>
     </Routes>
     </BrowserRouter>
-    </CityContext>
+    </CitiesProvider>
   )
 }
 
